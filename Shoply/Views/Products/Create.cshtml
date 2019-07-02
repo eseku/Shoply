@@ -1,0 +1,76 @@
+﻿@model Shoply.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    
+
+        <h2>Create Product</h2>
+       
+        <div class="row">
+            <div class="col-s4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="input-field">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name"required="" aria-required="true"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="UnitPrice" class="control-label"></label>
+                        <input asp-for="UnitPrice" id="unit_price" onblur="calctsv()" />
+                        <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        <input asp-for="Quantity" id="_quantity" onblur="calctsv()" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="StockValue" class="control-label"></label><br />
+                        <input asp-for="StockValue" readonly id="disabled" />
+                        <span asp-validation-for="StockValue" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="col s6">
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="blue lighten-2 btn btn-default" />
+                            <a asp-action="Index" class="waves-effect waves-light btn btn-default">Back to List</a>
+                        </div>
+                    </div>
+
+                </form>
+                
+            </div>
+        </div>
+
+       
+  
+
+<script>
+
+
+    function calctsv() {
+        var unit_Price1 = document.getElementById('unit_price').value;
+        var _quantity1 = document.getElementById('_quantity').value;
+        var totalstock = (unit_Price1 * _quantity1);
+        document.getElementById("disabled").label = "";
+        document.getElementById("disabled").value = totalstock;
+
+    }
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

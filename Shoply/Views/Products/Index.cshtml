@@ -1,0 +1,224 @@
+﻿@model IEnumerable<Shoply.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<br />
+<div class="card">
+
+</div>
+<div class="row row-no-gutters">
+    <div class="col s12 ">
+        <h3 style="margin: 0 auto;">Products</h3>
+    </div>
+
+    <div class="col s12 m6">
+        <div class="form-group">
+            <div class="row row-no-gutters">
+                <div class="col s10">
+                    <input type="text" id="myInput" placeholder="Search ">
+                </div>
+                <div class="col s2">
+                    <a asp-controller="products" asp-action="index" class="btn-small btn red darken-2"><i class=" tiny material-icons">clear</i></a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="col s12  m6">
+        <div class="form-group">
+            <div class="row">
+                <div class="col s8">
+                    <input style="text-align:right;" placeholder="Total Stock Value" readonly id="totalStockValueTextField" />
+                </div>
+                <div class="col s4">
+                    <button class="btn small blue lighten-2" onclick="myfunction1()">Calculate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<table id="MyTable" class="responsive-table striped highlight" width="100%">
+    <thead>
+        <tr>
+        
+            <th class="btn blue lighten-2" onclick="sortTable()">
+                <i class="material-icons">sort</i>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th style="text-align:right;">
+                ¢
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th style="text-align:right;">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th style="text-align:right;">
+                ¢
+                @Html.DisplayNameFor(model => model.StockValue)
+            </th>
+            <th style="text-align:right;">
+                <span>Add  </span>
+                <a asp-action="Create" class="btn-floating btn-small waves-effect waves-light blue lighten-2 pulse animated infinite pulse">
+                    <i class="material-icons">
+                        add
+                    </i>
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td style="text-align:right;">
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td style="text-align:right;">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td style="text-align:right;">
+                    @Html.DisplayFor(modelItem => item.StockValue)
+                </td>
+                <td style="text-align:right;">
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i class=" teal-text tiny material-icons">edit</i></a>|
+                    <a asp-action="Details" asp-route-id="@item.Id"><i class="teal-text tiny tiny material-icons">description</i></a>|
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="teal-text tiny tiny material-icons">delete</i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<button data-target="modal1" class="btn modal-trigger">Modal</button>*@
+
+
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+
+
+    <div class="modal-content">
+        <h4>Delete Product</h4>
+        <h3>Are you sure you want to delete this?</h3>
+        <form asp-action="Delete">
+            @*//<input type="hidden" asp-for="Id" />*@
+            <input type="submit" value="Delete" class="btn btn-default  red darken-2" />
+            <input type="submit" value="Close" asp-action="Index" class="btn btn-default " />
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+<script>
+
+
+
+
+
+
+    function searchFunction() {
+        var input, filter, table, tr, td, td1, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("MyTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            td1 = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                }
+                else tr[i].style.display = "none";
+            } else if (td1) {
+                txtValue1 = td1.textContent || td1.innerText;
+                if (txtValue1.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                }
+                else tr[i].style.display = "none";
+            }
+        }
+    }
+
+    function sortTable() {
+
+
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("MyTable");
+        switching = true;
+
+        while (switching) {
+
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < (rows.length - 1); i++) {
+
+                shouldSwitch = false;
+
+                x = rows[i].getElementsByTagName("td")[0];
+                y = rows[i + 1].getElementsByTagName("td")[0];
+
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+
+
+    var table = document.getElementById("MyTable");
+    var field = document.getElementById("totalStockValueTextField");
+    var tr = document.getElementsByTagName("tr");
+    var td = document.getElementsByTagName("td");
+    var rows = table.rows;
+    var totalStockValue;
+
+    function myfunction1() {
+
+        totalStockValue = 0;
+
+        for (i = 1; i < (rows.length); i++) {
+
+            totalStockValue += Number(rows[i].getElementsByTagName("td")[4].innerHTML);
+
+        }
+        field.value = "¢" + totalStockValue;
+        console.log(totalStockValue);
+        //console.log(typeof  rows[i].getElementsByTagName("td")[4].innerHTML)
+        //var total = totalStockValue.toFixed;
+        //console.log(total)
+    }
+
+
+</script>

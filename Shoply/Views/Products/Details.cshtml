@@ -1,0 +1,48 @@
+﻿@model Shoply.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+ 
+        <h2>Details</h2>
+        <h4>Product</h4>
+         <hr />
+         <dl class="row">
+             <dt class="col s2">
+                 @Html.DisplayNameFor(model => model.Name)
+             </dt>
+             <dd class="col s10">
+                 @Html.DisplayFor(model => model.Name)
+             </dd>
+             <dt class="col s2">
+                 @Html.DisplayNameFor(model => model.Description)
+             </dt>
+             <dd class="col s10">
+                 @Html.DisplayFor(model => model.Description)
+             </dd>
+             <dt class="col s2">
+                 @Html.DisplayNameFor(model => model.UnitPrice)
+             </dt>
+             <dd class="col s10">
+                 @Html.DisplayFor(model => model.UnitPrice)
+             </dd>
+             <dt class="col s2">
+                 @Html.DisplayNameFor(model => model.Quantity)
+             </dt>
+             <dd class="col s10">
+                 @Html.DisplayFor(model => model.Quantity)
+             </dd>
+             <dt class="col s2">
+                 @Html.DisplayNameFor(model => model.StockValue)
+             </dt>
+             <dd class="col s10">
+                 @Html.DisplayFor(model => model.StockValue)
+             </dd>
+         </dl>
+        <div>
+            <a class="btn btn-default blue lighten-2 " asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
+            <a class="btn btn-default" asp-action="Index">Back to List</a>
+        </div>
+ 
